@@ -1,0 +1,8 @@
+[versions]
+junit = "5.10.0"
+checkstyle = "10.26.1"
+
+[libraries]
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junitBom = { module = "org.junit:junit-bom", version.ref = "junit" }
+checkstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }

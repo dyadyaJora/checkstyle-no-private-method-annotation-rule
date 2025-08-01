@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'signing'
+
+    id 'org.jreleaser' version '1.15.0'
+}
+
+group = 'dev.jora.checkstyle'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+dependencies  {
+    compileOnly(libs.checkstyle)
+    testImplementation(libs.checkstyle)
+    testImplementation(platform(libs.junitBom))
+    testImplementation(libs.junit)
+    testImplementation("com.puppycrawl.tools:checkstyle:10.26.1:tests")
+    testImplementation("com.google.truth:truth:1.4.4")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
