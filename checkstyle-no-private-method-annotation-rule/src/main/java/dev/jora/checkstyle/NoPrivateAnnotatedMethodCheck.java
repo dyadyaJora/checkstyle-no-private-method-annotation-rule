@@ -9,12 +9,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Checkstyle rule to disallow private methods from being annotated with certain annotations.
+ * This is useful for ensuring that private methods do not carry annotations that are
+ * intended for public APIs or for methods that are part of the contract of a class.
+ *
  * @author dyadyaJora on 01.08.2025
  */
 public class NoPrivateAnnotatedMethodCheck extends AbstractCheck {
+    /**
+     * The key for the message to be logged when a forbidden annotation is found on a private method.
+     */
     public static final String MSG_KEY = "forbidden.annotation.on.private";
 
     private final Set<String> forbiddenAnnotations = new HashSet<>();
+
+    /**
+     * Default constructor.
+     */
+    public NoPrivateAnnotatedMethodCheck() { }
 
     /**
      * Sets the names of annotations that are forbidden on private methods.

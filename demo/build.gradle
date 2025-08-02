@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    checkstyle libs.checkstyle
+    checkstyle project(':checkstyle-no-private-method-annotation-rule')
+}
+
+checkstyle {
+    toolVersion = libs.versions.checkstyle.get()
+    configFile = file("${project.getProjectDir()}/config/checkstyle/checkstyle.xml")
+    configProperties = [
+            'checkstyle.suppressions.file': file("${project.getProjectDir()}/config/checkstyle/suppressions.xml").absolutePath
+    ]
+}
+
+tasks.withType(Checkstyle).configureEach {
+    reports {
+        xml.required = false
+        html.required = true
+        html.outputLocation = file("$buildDir/reports/checkstyle/${name}.html")
+    }
+}

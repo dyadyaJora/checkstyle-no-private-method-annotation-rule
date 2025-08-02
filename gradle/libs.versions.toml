@@ -1,8 +1,13 @@
 [versions]
 junit = "5.10.0"
 checkstyle = "10.26.1"
+googleTruth = "1.4.4"
 
 [libraries]
 junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junitBom = { module = "org.junit:junit-bom", version.ref = "junit" }
 checkstyle = { module = "com.puppycrawl.tools:checkstyle", version.ref = "checkstyle" }
+googleTruth = { module = "com.google.truth:truth", version.ref = "googleTruth" }
+
+[plugins]
+jreleaser = { id = "org.jreleaser", version = "1.15.0" }

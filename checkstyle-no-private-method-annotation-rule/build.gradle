@@ -1,0 +1,82 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'signing'
+
+    alias(libs.plugins.jreleaser)
+}
+
+group = 'dev.jora.checkstyle'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+tasks.withType(JavaCompile).configureEach {
+    options.release = 11
+}
+
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_11
+
+java {
+    withSourcesJar()
+    withJavadocJar()
+}
+
+dependencies  {
+    compileOnly(libs.checkstyle)
+    testImplementation(libs.checkstyle)
+    testImplementation(platform(libs.junitBom))
+    testImplementation(libs.junit)
+    testImplementation(libs.googleTruth)
+    testImplementation("com.puppycrawl.tools:checkstyle:10.26.1:tests")
+}
+
+test {
+    useJUnitPlatform()
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+publishing {
+    publications {
+        myPub(MavenPublication) {
+            from components.java
+            pom {
+                name = 'checkstyle-no-private-method-annotation-rule'
+                description = 'A checkstyle rule to disallow private methods with specific annotations.'
+                url = 'https://github.com/dyadyaJora/checkstyle-no-private-method-annotation-rule'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'dyadyaJora'
+                        name = 'George Kindra'
+                        email = 'idyadyajora@gmail.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/dyadyaJora/checkstyle-no-private-method-annotation-rule.git'
+                    developerConnection = 'scm:git:ssh://github.com:dyadyaJora/checkstyle-no-private-method-annotation-rule.git'
+                    url = 'https/github.com/dyadyaJora/checkstyle-no-private-method-annotation-rule'
+                }
+            }
+        }
+    }
+}
+
+signing {
+    setRequired {
+        gradle.taskGraph.allTasks.any { it.name.contains("publish") && !it.name.contains("MavenLocal") }
+    }
+    sign publishing.publications.myPub
+}
+

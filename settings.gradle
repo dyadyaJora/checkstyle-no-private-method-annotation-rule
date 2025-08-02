@@ -1,1 +1,4 @@
-rootProject.name = 'checkstyle-no-private-method-annotation-rule'
+rootProject.name = 'checkstyle-no-private-method-annotation-rule-root'
+
+include 'checkstyle-no-private-method-annotation-rule'
+include 'demo'
