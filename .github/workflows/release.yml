@@ -1,0 +1,46 @@
+name: release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582
+
+      - name: Setup gradlew
+        run: chmod +x ./gradlew
+
+      - name: Run build
+        run: ./gradlew clean build
+
+      - name: Publish to staging directory
+        run: ./gradlew :checkstyle-no-private-method-annotation-rule:publishMyPubPublicationToStaging
+
+      - name: Prepare keys
+        env:
+          PUBLIC_CONTENT: ${{ secrets.PUBLIC_KEY }}
+          PRIVATE_CONTENT: ${{ secrets.PRIVATE_KEY }}
+        run: |
+          echo "$PUBLIC_CONTENT" > public.key
+          echo "$PRIVATE_CONTENT" > private.key
+
+      - name: Create release
+        run: ./gradlew jreleaserDeploy -PreleaseMaxRetries=3 || exit 0
+        env:
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.JRELEASER_GPG_PASSPHRASE }}
+          JRELEASER_MAVENCENTRAL_SONATYPE_USERNAME: ${{ secrets.JRELEASER_MAVENCENTRAL_SONATYPE_USERNAME }}
+          JRELEASER_MAVENCENTRAL_SONATYPE_PASSWORD: ${{ secrets.JRELEASER_MAVENCENTRAL_SONATYPE_PASSWORD }}
