@@ -58,4 +58,21 @@ class NoPrivateAnnotatedMethodCheckTest extends AbstractModuleTestSupport {
 
         verify(checkConfig, getPath("InputNoPrivateAnnotatedMethodCheck2.java"), expected);
     }
+
+    @Test
+    public void testByFQCNErrors() throws Exception {
+        final DefaultConfiguration checkConfig = createModuleConfig(NoPrivateAnnotatedMethodCheck.class);
+
+        checkConfig.addProperty("forbiddenAnnotations", "com.example.TestAnnotation");
+        checkConfig.addProperty("forbiddenAnnotations", "SecondAnnotation");
+
+        final String[] expected = {
+                "7:5: " + getCheckMessage(MSG_KEY, "TestAnnotation"),
+                "10:5: " + getCheckMessage(MSG_KEY, "com.example.TestAnnotation"),
+                "13:5: " + getCheckMessage(MSG_KEY, "SecondAnnotation"),
+                "16:5: " + getCheckMessage(MSG_KEY, "com.example.SecondAnnotation"),
+        };
+
+        verify(checkConfig, getPath("InputNoPrivateAnnotatedMethodCheck3.java"), expected);
+    }
 }

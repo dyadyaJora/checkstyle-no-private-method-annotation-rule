@@ -79,8 +79,17 @@ public class NoPrivateAnnotatedMethodCheck extends AbstractCheck {
     }
 
     private boolean isForbidden(String annName) {
-        return forbiddenAnnotations.contains(annName)
-                || forbiddenAnnotations.contains("@" + annName);
+        if (forbiddenAnnotations.contains(annName)) {
+            return true;
+        }
+        String shortName = annName.contains(".") ? annName.substring(annName.lastIndexOf('.') + 1) : annName;
+        for (String forbidden : forbiddenAnnotations) {
+            String forbiddenShort = forbidden.contains(".") ? forbidden.substring(forbidden.lastIndexOf('.') + 1) : forbidden;
+            if (shortName.equals(forbiddenShort)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String extractAnnotationName(DetailAST annotationAst) {
