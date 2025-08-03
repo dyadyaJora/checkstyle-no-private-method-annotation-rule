@@ -8,7 +8,7 @@ plugins {
 }
 
 group = 'dev.jora.checkstyle'
-version = '1.0.0-SNAPSHOT'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -60,7 +60,7 @@ publishing {
             from components.java
             pom {
                 name = 'checkstyle-no-private-method-annotation-rule'
-                description = 'A checkstyle rule to disallow private methods with specific annotations.'
+                description = 'A checkstyle custom rule to disallow private methods with specific annotations.'
                 url = 'https://github.com/dyadyaJora/checkstyle-no-private-method-annotation-rule'
                 licenses {
                     license {
@@ -112,8 +112,48 @@ publishing {
 
 signing {
     setRequired {
-        gradle.taskGraph.allTasks.any { it.name.contains("publish") && !it.name.contains("MavenLocal") }
+        gradle.taskGraph.allTasks.any {
+            it.name.contains("publish")
+                && !it.name.contains("MavenLocal") // not required for local publishing
+                && !it.name.contains("Snapshots") // not required for snapshots
+                && !it.name.contains("Staging") // no needed because it is signed by JReleaser
+            }
     }
     sign publishing.publications.myPub
 }
 
+def releaseMaxRetries = Integer.valueOf(findProperty('releaseMaxRetries') ? findProperty('releaseMaxRetries').toString() : '60')
+
+jreleaser {
+    gitRootSearch = true
+    project {
+        copyright = 'jora.dev'
+        description = 'A checkstyle custom rule to disallow private methods with specific annotations.'
+    }
+    signing {
+        active = 'ALWAYS'
+        armored = true
+        mode = 'FILE'
+        publicKey = 'public.key'
+        secretKey = 'private.key'
+    }
+    deploy {
+        maven {
+            active = 'ALWAYS'
+            mavenCentral {
+                sonatype {
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    maxRetries = releaseMaxRetries
+                    stagingRepository("build/staging-deploy")
+
+                }
+            }
+        }
+    }
+    release {
+        github {
+            enabled = false
+        }
+    }
+}
