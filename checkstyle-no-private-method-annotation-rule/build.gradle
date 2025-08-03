@@ -78,7 +78,7 @@ publishing {
                 scm {
                     connection = 'scm:git:git://github.com/dyadyaJora/checkstyle-no-private-method-annotation-rule.git'
                     developerConnection = 'scm:git:ssh://github.com:dyadyaJora/checkstyle-no-private-method-annotation-rule.git'
-                    url = 'https/github.com/dyadyaJora/checkstyle-no-private-method-annotation-rule'
+                    url = 'https://github.com/dyadyaJora/checkstyle-no-private-method-annotation-rule'
                 }
                 withXml {
                     def dependenciesNode = asNode().appendNode('dependencies')
