@@ -35,8 +35,8 @@ jobs:
           PUBLIC_CONTENT: ${{ secrets.PUBLIC_KEY }}
           PRIVATE_CONTENT: ${{ secrets.PRIVATE_KEY }}
         run: |
-          echo "$PUBLIC_CONTENT" > public.key
-          echo "$PRIVATE_CONTENT" > private.key
+          echo "$PUBLIC_CONTENT" > checkstyle-no-private-method-annotation-rule/public.key
+          echo "$PRIVATE_CONTENT" > checkstyle-no-private-method-annotation-rule/private.key
 
       - name: Create release
         run: ./gradlew :checkstyle-no-private-method-annotation-rule:jreleaserDeploy -PreleaseMaxRetries=3 || exit 0
