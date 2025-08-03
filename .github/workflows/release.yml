@@ -25,7 +25,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Run build
-        run: ./gradlew clean build
+        run: ./gradlew clean checkstyle-no-private-method-annotation-rule:build
 
       - name: Publish to staging directory
         run: ./gradlew :checkstyle-no-private-method-annotation-rule:publishMyPubPublicationToStaging
