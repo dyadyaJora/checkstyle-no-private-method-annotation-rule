@@ -5,13 +5,15 @@ public class InputNoPrivateAnnotatedMethodCheck1 {
     @Test
     private void testPrivate() { }
 
+    @ValidAnnotation
     @PostConstruct
+    @AnotherValidAnnotation
     private void init() { }
 
     @Transactional
     private void save() { }
 
-    @Transactional
+    @Transactional(readOnly = true)
     private void delete() { }
 
     @AllowedAnnotation

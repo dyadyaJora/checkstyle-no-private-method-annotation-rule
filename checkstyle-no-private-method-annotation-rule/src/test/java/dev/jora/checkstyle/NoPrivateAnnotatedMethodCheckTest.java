@@ -51,9 +51,9 @@ class NoPrivateAnnotatedMethodCheckTest extends AbstractModuleTestSupport {
 
         final String[] expected = {
                 "5:5: " + getCheckMessage(MSG_KEY, "Test"),
-                "8:5: " + getCheckMessage(MSG_KEY, "PostConstruct"),
-                "11:5: " + getCheckMessage(MSG_KEY, "Transactional"),
-                "14:5: " + getCheckMessage(MSG_KEY, "Transactional")
+                "9:5: " + getCheckMessage(MSG_KEY, "PostConstruct"),
+                "13:5: " + getCheckMessage(MSG_KEY, "Transactional"),
+                "16:5: " + getCheckMessage(MSG_KEY, "Transactional")
         };
 
         verify(checkConfig, getPath("InputNoPrivateAnnotatedMethodCheck2.java"), expected);
