@@ -47,7 +47,7 @@ checkstyle {
      ...
      <module name="TreeWalker">
        ...
-       <module name="NoPrivateMethodAnnotation">
+       <module name="NoPrivateAnnotatedMethodCheck">
             <property name="severity" value="error"/>
             <property name="forbiddenAnnotations" value="MyAnnotation"/>
             <property name="forbiddenAnnotations" value="MyAnnotation2"/>
@@ -68,6 +68,8 @@ checkstyle {
 
 ## Example
 
+Violated code example
+
 ```java
 public class Example {
     @Transactional // <-- This will trigger a Checkstyle violation
@@ -78,6 +80,10 @@ public class Example {
     }
 }
 ```
+
+Log output example
+
+    [ERROR] Example.java:2:5: Annotation 'Transactional' is not allowed on private methods [NoPrivateAnnotatedMethod]
 
 ## License
 
