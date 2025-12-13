@@ -1,6 +1,6 @@
 [versions]
 junit = "5.10.0"
-checkstyle = "11.1.0"
+checkstyle = "12.2.0"
 googleTruth = "1.4.4"
 
 [libraries]
