@@ -12,7 +12,7 @@ import static dev.jora.checkstyle.NoPrivateAnnotatedMethodCheck.MSG_KEY;
 class NoPrivateAnnotatedMethodCheckTest extends AbstractModuleTestSupport {
 
     @Override
-    protected String getPackageLocation() {
+    public String getPackageLocation() {
         return "dev/jora/checkstyle";
     }
 
