@@ -28,7 +28,7 @@ dependencies {
     // add checkstyle tools
     checkstyle "com.puppycrawl.tools:checkstyle:${checkstyle.toolVersion}"
     // add new custom rule
-    checkstyle 'dev.jora.checkstyle:checkstyle-no-private-method-annotation-rule:1.0.0'
+    checkstyle 'dev.jora.checkstyle:checkstyle-no-private-method-annotation-rule:1.0.5'
 }
 
 checkstyle {
